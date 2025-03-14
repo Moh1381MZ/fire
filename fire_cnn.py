@@ -20,7 +20,7 @@ labels=[]
 for i,adress in enumerate(glob.glob("fire_dataset\\*\\*")): #ba glob harv tasver ra mi khanim va dar edame shuru be pish pardazesh mikonim
 
     img=cv2.imread(adress)#khandan tasavir
-    img=cv2.resize(img,(32,32))# resize kardan
+    img=cv2.resize(img,(64,64))# resize kardan
     img=img/255 #آوردن تصاویر به بازه ی صفر و یک 
     #img=img.flatten()#ساخت بردار دو بعدی 
     data_list.append(img)
@@ -60,7 +60,7 @@ net=models.Sequential([
     layers.Flatten(),
     layers.Dense(512,activation="relu"),
     layers.BatchNormalization(),
-    layers.Dense(10,activation="softmax")
+    layers.Dense(2,activation="softmax")
 ])
 
 s=net.summary()
@@ -70,10 +70,11 @@ H=net.fit(x_train,y_train,batch_size=batchsize,epochs=epocks,validation_data=(x_
 
 print(H.history.keys())
 
-plt.plot(np.arange(epocks),H.history['loss'],label="train loss")
-plt.plot(np.arange(epocks),H.history['val_loss'],label="test loss")
-plt.plot(np.arange(epocks),H.history['accuracy'],label="train loss")
-plt.plot(np.arange(epocks),H.history['val_accuracy'],label="test loss")
+plt.plot(np.arange(epocks), H.history['accuracy'], label="train accuracy")
+plt.plot(np.arange(epocks), H.history['val_accuracy'], label="test accuracy")
+plt.plot(np.arange(epocks), H.history['loss'], label="train loss")
+plt.plot(np.arange(epocks), H.history['val_loss'], label="test loss")
+
 plt.legend()
 plt.show()
 print(net.summary())
